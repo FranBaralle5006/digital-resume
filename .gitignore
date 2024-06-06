@@ -1,15 +1,15 @@
 # See https://help.github.com/articles/ignoring-files/ for more about ignoring files.
 
 # dependencies
-/node_modules
+/node_modules/
 /.pnp
 .pnp.js
 
 # testing
-/coverage
+/coverage/
 
 # production
-/build
+/build/
 
 # misc
 .DS_Store
@@ -17,14 +17,26 @@
 .env.development.local
 .env.test.local
 .env.production.local
+.vscode/
+*.log
+*.lock
+*.pyc
 
-npm-debug.log*
-yarn-debug.log*
-yarn-error.log*
+# python
+__pycache__/
+*.py[cod]
+*$py.class
 
+# OS or editor generated files
+.idea/
+.DS_Store/
+Thumbs.db
+desktop.ini
 
-makefile
-backend/venv/Lib
+# virtual environments
+/venv/
+/backend/venv/
 
+# Node
+node_modules/
 node_modules/.cache/
-backend/venv/
