@@ -1,0 +1,61 @@
+/* @import '~@fortawesome/fontawesome-free/css/all.min.css'; */
+
+.chatbot {
+    width: 400px; /* Ajusta el ancho según tus preferencias */
+    margin: 20px auto;
+}
+
+.chat-container {
+    height: 400px; /* Ajusta la altura según tus preferencias */
+    overflow-y: auto;
+    border: 1px solid #ccc;
+    padding: 10px;
+    margin-bottom: 10px;
+}
+
+.message {
+    padding: 10px;
+    margin-bottom: 5px;
+    border-radius: 5px;
+    max-width: 80%; 
+    word-wrap: break-word; 
+}
+
+.user-message {
+    background-color: white;
+    color:black;
+    text-align: left;
+    margin-right: auto;
+}
+
+.bot-message {
+    background-color: lightgray;
+    color:black;
+    text-align: rigth;
+    margin-left: auto;
+}
+
+.input-container {
+    display: flex;
+    align-items: center;
+}
+
+.input-container input {
+    flex-grow: 1;
+    padding: 10px;
+    border: 1px solid #ccc;
+    border-radius: 5px 0 0 5px;
+}
+
+.send-button {
+    background-color: #007bff;
+    color: white;
+    border: none;
+    padding: 10px 15px;
+    border-radius: 0 5px 5px 0;
+    cursor: pointer;
+}
+
+/* .send-button i {
+    /* Tamaño y estilo del ícono (ajusta según tus preferencias) 
+} */
