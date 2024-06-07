@@ -2,8 +2,10 @@ from flask import Flask, request, jsonify, send_from_directory
 from flask_cors import CORS
 import os
 import werkzeug
-import requests 
 from transformers import AutoModelForCausalLM, AutoTokenizer
+import pymongo
+from pymongo import MongoClient
+from parse_cvs import parse_cv
 
 app = Flask(__name__)
 CORS(app)
@@ -26,6 +28,12 @@ model = AutoModelForCausalLM.from_pretrained("microsoft/DialoGPT-medium")
 def index():
     return 'Hello, world!'
 
+client = MongoClient("mongodb://localhost:27017/")  # Ejemplo de conexión local
+db = client["cvs"]  # Nombre de la base de datos
+collection = db["curriculums"]  # Nombre de la colección
+
+# ... (tus rutas /files, /files/<filename>, /uploads/<filename>, /chatbot)
+
 @app.route('/upload', methods=['POST'])
 def upload_file():
     if 'file' not in request.files:
@@ -35,8 +43,23 @@ def upload_file():
         return jsonify({'message': 'No selected file'}), 400
     if file and allowed_file(file.filename):
         filename = werkzeug.utils.secure_filename(file.filename)
-        file.save(os.path.join(app.config['UPLOAD_FOLDER'], filename))
-        return jsonify({'message': 'File uploaded successfully', 'file': filename})
+        filepath = os.path.join(app.config['UPLOAD_FOLDER'], filename)
+        file.save(filepath)
+
+        # Parsear el CV y obtener el JSON
+        try:
+            cv_json = parse_cv(filepath)
+        except ValueError as e:
+            return jsonify({'message': str(e)}), 400  # Manejo de errores
+
+        # Insertar en MongoDB
+        collection.insert_one(cv_json) 
+        
+        # Opcional: Eliminar el archivo después de procesarlo
+        # os.remove(filepath)
+
+        return jsonify({'message': 'CV subido, parseado y almacenado en MongoDB con éxito'})
+
     else:
         return jsonify({'message': 'Invalid file type'}), 400
 
